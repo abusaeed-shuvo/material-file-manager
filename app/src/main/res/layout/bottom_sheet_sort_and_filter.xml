@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	android:layout_width = "match_parent"
+	android:layout_height = "wrap_content"
+	android:orientation = "vertical">
+
+	<LinearLayout
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:orientation = "horizontal"
+		android:gravity = "center"
+		android:padding = "10dp">
+
+		<TextView
+			android:layout_width = "0dp"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:text = "Apply to all folder"
+			android:textAppearance = "@style/TextAppearance.Material3.TitleLarge" />
+
+		<CheckBox
+			android:id = "@+id/checkbox_apply_to_all_folder"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content" />
+
+	</LinearLayout>
+
+	<com.google.android.material.divider.MaterialDivider
+		android:layout_width = "match_parent"
+		android:layout_height = "2dp"
+		app:dividerColor = "?attr/colorSecondary" />
+
+	<TextView
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "10dp"
+		android:text = "View"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleLarge"
+		android:textColor = "?attr/colorPrimary" />
+
+	<RadioGroup
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_margin = "10dp"
+		android:orientation = "horizontal">
+
+		<com.google.android.material.radiobutton.MaterialRadioButton
+			android:id = "@+id/radio_button_list_view"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:drawableStart = "@drawable/ic_view_list" />
+
+		<com.google.android.material.radiobutton.MaterialRadioButton
+			android:id = "@+id/radio_button_grid_view"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:drawableStart = "@drawable/ic_grid_view" />
+
+		<com.google.android.material.radiobutton.MaterialRadioButton
+			android:id = "@+id/radio_button_details_view"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:drawableStart = "@drawable/ic_details_view" />
+
+	</RadioGroup>
+
+	<RadioGroup
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_margin = "10dp"
+		android:orientation = "horizontal">
+
+		<RadioButton
+			android:id = "@+id/radio_button_view_small"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:drawableStart = "@drawable/ic_img" />
+
+		<RadioButton
+			android:id = "@+id/radio_button_view_big"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:drawableStart = "@drawable/ic_img_big" />
+
+
+	</RadioGroup>
+
+	<com.google.android.material.divider.MaterialDivider
+		android:layout_width = "match_parent"
+		android:layout_height = "2dp"
+		app:dividerColor = "?attr/colorSecondary" />
+
+	<TextView
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "10dp"
+		android:text = "Sort"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleLarge"
+		android:textColor = "?attr/colorPrimary" />
+
+
+	<TextView
+		android:id = "@+id/tv_sort_option"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_margin = "10dp"
+		android:text = "Name ▲"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleMedium" />
+
+	<com.google.android.material.divider.MaterialDivider
+		android:layout_width = "match_parent"
+		android:layout_height = "2dp"
+		app:dividerColor = "?attr/colorSecondary" />
+
+	<TextView
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "10dp"
+		android:text = "Others"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleLarge"
+		android:textColor = "?attr/colorPrimary" />
+
+	<LinearLayout
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:orientation = "horizontal"
+		android:gravity = "center"
+		android:padding = "10dp">
+
+		<TextView
+			android:layout_width = "0dp"
+			android:layout_height = "wrap_content"
+			android:layout_weight = "1"
+			android:text = "Show hidden files"
+			android:textAppearance = "@style/TextAppearance.Material3.TitleLarge" />
+
+		<CheckBox
+			android:id = "@+id/checkbox_show_hidden_files"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_gravity = "end" />
+
+	</LinearLayout>
+
+</LinearLayout>

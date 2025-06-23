@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	android:layout_width = "match_parent"
+	android:layout_height = "wrap_content"
+	android:layout_margin = "5dp"
+	android:padding = "8dp">
+
+
+	<com.google.android.material.imageview.ShapeableImageView
+		android:id = "@+id/iv_storage_icon"
+		android:layout_width = "36dp"
+		android:layout_height = "36dp"
+		android:src = "@drawable/ic_internal"
+		app:layout_constraintBottom_toTopOf = "@id/storage_indicator"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent" />
+
+	<TextView
+		android:id = "@+id/tv_storage_name"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "5dp"
+		android:text = "Main Storage"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleMedium.Emphasized"
+		app:layout_constraintBottom_toTopOf = "@id/tv_storage_size"
+		app:layout_constraintStart_toEndOf = "@id/iv_storage_icon"
+		app:layout_constraintTop_toTopOf = "parent" />
+
+	<TextView
+		android:id = "@+id/tv_storage_size"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:text = "53GB/128GB"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleSmall.Emphasized"
+		app:layout_constraintBottom_toTopOf = "@id/storage_indicator"
+		app:layout_constraintStart_toStartOf = "@id/tv_storage_name"
+		app:layout_constraintTop_toBottomOf = "@id/tv_storage_name" />
+
+	<TextView
+		android:id = "@+id/tv_storage_used_percentage"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:text = "41%"
+		android:textAppearance = "@style/TextAppearance.Material3.TitleLarge.Emphasized"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent" />
+
+	<com.google.android.material.progressindicator.LinearProgressIndicator
+		android:id = "@+id/storage_indicator"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop = "6dp"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@id/tv_storage_size"
+		app:trackColor = "?attr/colorSecondary"
+		app:indicatorColor = "?attr/colorPrimary"
+
+		app:trackThickness = "3dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

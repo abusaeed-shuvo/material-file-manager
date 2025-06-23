@@ -1,0 +1,12 @@
+<resources>
+	<!-- Base application theme. -->
+	<style name = "Base.Theme.MaterialFileManager" parent = "Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar">
+		<!-- Customize your light theme here. -->
+		<!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+		<item name = "windowActionModeOverlay">true</item>
+		<item name = "actionModeCloseDrawable">@drawable/ic_close</item>
+		<item name = "actionBarTheme">@style/ThemeOverlay.AppCompat.DayNight.ActionBar</item>
+	</style>
+
+	<style name = "Theme.MaterialFileManager" parent = "Base.Theme.MaterialFileManager" />
+</resources>

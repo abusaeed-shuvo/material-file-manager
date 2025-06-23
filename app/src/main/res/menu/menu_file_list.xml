@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto">
+
+
+	<item
+		android:id = "@+id/action_sort"
+		android:icon = "@drawable/ic_sort"
+		android:iconTint = "?attr/colorOnSurface"
+		android:title = "Sort"
+		app:showAsAction = "always" />
+
+	<item
+		android:id = "@+id/action_add_new"
+		android:icon = "@drawable/ic_add"
+		android:iconTint = "?attr/colorOnSurface"
+app:showAsAction="withText"
+		android:title = "New"
+
+		>
+		<menu>
+			<item
+				android:id = "@+id/action_add_new_file"
+				android:icon = "@drawable/ic_create_new_file"
+				android:title = "File"
+				app:showAsAction="withText"
+				/>
+			<item
+				android:id = "@+id/action_add_new_folder"
+				app:showAsAction="withText"
+
+				android:icon = "@drawable/ic_create_new_folder"
+				android:title = "Folder" />
+		</menu>
+	</item>
+	<item
+		android:id = "@+id/action_search"
+		android:icon = "@drawable/ic_search"
+		android:iconTint = "?attr/colorOnSurface"
+		app:showAsAction="withText"
+
+		android:title = "Search" />
+	<item
+		android:id = "@+id/action_refresh"
+		app:showAsAction="withText"
+
+		android:icon = "@drawable/ic_refresh"
+		android:iconTint = "?attr/colorOnSurface"
+		android:title = "Refresh" />
+</menu>
