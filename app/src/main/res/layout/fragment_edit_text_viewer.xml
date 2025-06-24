@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent"
+	android:background = "?attr/colorSurface"
+	android:padding = "16dp"
+	android:scrollbars = "vertical"
+	tools:context = ".view.ui.filedisplay.EditTextViewerFragment">
+
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id = "@+id/text_edit_layout"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:hint = "Enter your text here:"
+		android:padding = "8dp">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id = "@+id/text_edit_view"
+			android:layout_width = "match_parent"
+			android:layout_height = "match_parent"
+			android:background = "@android:color/transparent"
+			android:focusable = "true"
+			android:gravity = "top|start"
+			android:padding = "8dp"
+			android:inputType = "textMultiLine"
+			android:minLines = "10"
+			android:overScrollMode = "always"
+			android:textAppearance = "@style/TextAppearance.Material3.TitleMedium"
+			android:textColor = "?attr/colorOnSurface"
+
+			android:textColorHint = "?attr/colorOnPrimary" />
+	</com.google.android.material.textfield.TextInputLayout>
+</ScrollView>
+

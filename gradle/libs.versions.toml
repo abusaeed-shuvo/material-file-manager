@@ -16,6 +16,8 @@ viewpager2 = "1.1.0"
 androidxNavigationSafeargsKotlinGradlePlugin = "2.9.0"
 preference = "1.2.1"
 documentfile = "1.1.0"
+media3Ui = "1.7.1"
+media3Exoplayer = "1.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +34,8 @@ androidx-navigation-dynamic-features-fragment = { group = "androidx.navigation",
 androidx-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
 androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
+androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
+androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

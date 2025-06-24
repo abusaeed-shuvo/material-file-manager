@@ -9,6 +9,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toFile
 import androidx.core.net.toUri
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -58,13 +61,22 @@ class ImageDisplayFragment : Fragment() {
 
 		pagerAdapter = ImagePagerAdapter(imageUris) {
 			showTopBarAndBottomBar = !showTopBarAndBottomBar
+			val controller = WindowInsetsControllerCompat(requireActivity().window, requireView())
 
 			if (showTopBarAndBottomBar) {
 				binding.recyclerViewThumbnail.visibility = View.VISIBLE
 				(requireActivity() as AppCompatActivity).supportActionBar?.show()
+				WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
+
+				WindowInsetsControllerCompat(requireActivity().window, requireView())
+					.show(WindowInsetsCompat.Type.statusBars())
 			} else {
-				binding.recyclerViewThumbnail.visibility = View.GONE
+				binding.recyclerViewThumbnail.visibility = View.INVISIBLE
 				(requireActivity() as AppCompatActivity).supportActionBar?.hide()
+				controller.hide(WindowInsetsCompat.Type.systemBars())
+				controller.systemBarsBehavior =
+					WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
 
 			}
 		}
@@ -108,6 +120,11 @@ class ImageDisplayFragment : Fragment() {
 
 	override fun onDestroyView() {
 		super.onDestroyView()
+		(requireActivity() as AppCompatActivity).supportActionBar?.show()
+		WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
+
+		WindowInsetsControllerCompat(requireActivity().window, requireView())
+			.show(WindowInsetsCompat.Type.statusBars())
 		_binding = null
 	}
 

@@ -6,10 +6,13 @@
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
 	tools:openDrawer = "start"
+	android:fitsSystemWindows = "true"
+
 	tools:context = ".MainActivity">
 
 	<androidx.coordinatorlayout.widget.CoordinatorLayout
 		android:layout_width = "match_parent"
+
 		android:layout_height = "match_parent">
 
 		<com.google.android.material.appbar.AppBarLayout
@@ -27,6 +30,8 @@
 				android:layout_width = "match_parent"
 				android:layout_height = "?attr/actionBarSize"
 				android:elevation = "10dp"
+				android:fitsSystemWindows = "true"
+
 				app:title = "Files Manager"
 				app:titleCentered = "true"
 				app:titleTextColor = "?attr/colorOnPrimarySurface" />
@@ -40,6 +45,8 @@
 			app:defaultNavHost = "true"
 			app:layout_behavior = "com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
 			app:navGraph = "@navigation/main_nav" />
+
+		
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 	<com.google.android.material.navigation.NavigationView

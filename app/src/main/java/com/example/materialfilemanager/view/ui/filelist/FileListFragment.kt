@@ -4,15 +4,20 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +25,7 @@ import com.example.materialfilemanager.R
 import com.example.materialfilemanager.databinding.BottomSheetSortAndFilterBinding
 import com.example.materialfilemanager.databinding.DialogRemoveFileBinding
 import com.example.materialfilemanager.databinding.FragmentFileListBinding
+import com.example.materialfilemanager.model.formats.FileTypes
 import com.example.materialfilemanager.model.formats.ImageFormat
 import com.example.materialfilemanager.view.adapter.FileListAdapter
 import com.example.materialfilemanager.viewmodel.FileViewModel
@@ -36,6 +42,7 @@ class FileListFragment : Fragment() {
 	private val viewModel: FileViewModel by activityViewModels()
 	private lateinit var adapter: FileListAdapter
 	private val args: FileListFragmentArgs by navArgs()
+	private var isSelectionMode = false
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -48,8 +55,52 @@ class FileListFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		val homeDir = args.rootPath
+		val menuHost: MenuHost = requireActivity()
+
+		menuHost.addMenuProvider(object : MenuProvider {
+			override fun onCreateMenu(
+				menu: Menu, menuInflater: MenuInflater
+			) {
+				menuInflater.inflate(R.menu.menu_file_list, menu)
+			}
+
+			override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+				return when (menuItem.itemId) {
+					R.id.action_sort           -> {
+						Toast.makeText(requireContext(), "Sort", Toast.LENGTH_SHORT).show()
+						true
+					}
+
+					R.id.action_add_new_file   -> {
+						Toast.makeText(requireContext(), "File", Toast.LENGTH_SHORT).show()
+
+						true
+					}
+
+					R.id.action_add_new_folder -> {
+						Toast.makeText(requireContext(), "Folder", Toast.LENGTH_SHORT).show()
+						true
+					}
+
+					R.id.action_search         -> {
+						Toast.makeText(requireContext(), "Search", Toast.LENGTH_SHORT).show()
+
+						true
+					}
+
+					R.id.action_refresh        -> {
+						Toast.makeText(requireContext(), "Refresh", Toast.LENGTH_SHORT).show()
+						true
+					}
+
+
+					else                       -> false
+				}
+			}
+
+		}, viewLifecycleOwner, Lifecycle.State.RESUMED)
 		setupRecyclerView()
-		setupFab()
+
 		updateToolbar()
 
 		viewModel.fileList.observe(viewLifecycleOwner) { files ->
@@ -86,12 +137,6 @@ class FileListFragment : Fragment() {
 
 	}
 
-	private fun setupFab() {
-
-		binding.fabAdd.setOnClickListener {
-			showFabMenu(it)
-		}
-	}
 
 	private fun setupRecyclerView() {
 		binding.recyclerviewViewFiles.layoutManager = LinearLayoutManager(requireContext())
@@ -101,20 +146,47 @@ class FileListFragment : Fragment() {
 				updateToolbar(file)
 			} else {
 				val currentDir = viewModel.currentDirectory.value
-				if (ImageFormat.isImageFile(file)) {
-					val imageUris = currentDir.listFiles()?.filter { ImageFormat.isImageFile(it) }
-						                ?.map { it.toUri().toString() } ?: emptyList()
 
-					val position = imageUris.indexOf(file.toUri().toString())
-					val action =
-						FileListFragmentDirections.actionFileListFragmentToImageDisplayFragment(
-							imageUris = imageUris.toTypedArray(),
-							imgIndex = position
-						)
-					findNavController().navigate(action)
-				} else {
-					Toast.makeText(requireContext(), "Clicked: ${file.name}", Toast.LENGTH_SHORT)
-						.show()
+				when (FileTypes.getFileType(file)) {
+					FileTypes.IMAGE   -> {
+						val imageUris =
+							currentDir.listFiles()?.filter { ImageFormat.isImageFile(it.extension) }
+								?.map { it.toUri().toString() } ?: emptyList()
+
+						val position = imageUris.indexOf(file.toUri().toString())
+						val action =
+							FileListFragmentDirections.actionFileListFragmentToImageDisplayFragment(
+								imageUris = imageUris.toTypedArray(), imgIndex = position
+							)
+						findNavController().navigate(action)
+					}
+
+					FileTypes.VIDEO   -> {
+						val videoPath =
+							file.path ?: "https://youtu.be/dQw4w9WgXcQ?si=NwimAxzVOlX1hyej"
+						val action =
+							FileListFragmentDirections.actionFileListFragmentToVideoDisplayFragment(
+								vidPath = videoPath
+							)
+						findNavController().navigate(action)
+					}
+
+					FileTypes.UNKNOWN -> {
+						Toast.makeText(
+							requireContext(), "Clicked: ${file.name}", Toast.LENGTH_SHORT
+						).show()
+					}
+
+					FileTypes.TEXT    -> {
+						val textPath = file.path ?: ""
+
+						val action =
+							FileListFragmentDirections.actionFileListFragmentToEditTextViewerFragment(
+								textPath
+							)
+
+						findNavController().navigate(action)
+					}
 				}
 
 			}
@@ -123,30 +195,6 @@ class FileListFragment : Fragment() {
 		binding.recyclerviewViewFiles.adapter = adapter
 	}
 
-	private fun showFabMenu(anchor: View) {
-		val popupMenu = PopupMenu(requireContext(), anchor)
-
-		popupMenu.menuInflater.inflate(R.menu.menu_fab_action, popupMenu.menu)
-
-		popupMenu.setForceShowIcon(true)
-
-		popupMenu.setOnMenuItemClickListener { item ->
-			when (item.itemId) {
-				R.id.action_create_file -> {
-					showAddDialog(false)
-					true
-				}
-
-				R.id.action_create_folder -> {
-					showAddDialog(true)
-					true
-				}
-
-				else -> false
-			}
-		}
-		popupMenu.show()
-	}
 
 	private fun showAddDialog(isFolder: Boolean) {
 

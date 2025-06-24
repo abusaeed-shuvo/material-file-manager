@@ -1,7 +1,5 @@
 package com.example.materialfilemanager.model.formats
 
-import java.io.File
-
 enum class ImageFormat(val extension: String) {
 	JPG("jpg"),
 	JPEG("jpeg"),
@@ -12,8 +10,8 @@ enum class ImageFormat(val extension: String) {
 
 
 	companion object {
-		fun isImageFile(file: File): Boolean {
-			val ext = file.extension.lowercase()
+		fun isImageFile(file: String): Boolean {
+			val ext = file.lowercase()
 			return ImageFormat.entries.any() { it.extension == ext }
 		}
 	}

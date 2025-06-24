@@ -19,6 +19,12 @@
 		<action
 			android:id = "@+id/action_fileListFragment_to_imageDisplayFragment"
 			app:destination = "@id/imageDisplayFragment" />
+		<action
+			android:id = "@+id/action_fileListFragment_to_videoDisplayFragment"
+			app:destination = "@id/videoDisplayFragment" />
+		<action
+			android:id = "@+id/action_fileListFragment_to_editTextViewerFragment"
+			app:destination = "@id/editTextViewerFragment" />
 	</fragment>
 	<fragment
 		android:id = "@+id/homeFragment"
@@ -36,7 +42,7 @@
 	<fragment
 		android:id = "@+id/documentFileListFragment"
 		android:name = "com.example.materialfilemanager.view.ui.documentfilelist.DocumentFileListFragment"
-		android:label = "fragment_document_file_list"
+		android:label = "Document File Viewer"
 		tools:layout = "@layout/fragment_document_file_list">
 		<argument
 			android:name = "rootPath"
@@ -45,7 +51,7 @@
 	<fragment
 		android:id = "@+id/imageDisplayFragment"
 		android:name = "com.example.materialfilemanager.view.ui.filedisplay.ImageDisplayFragment"
-		android:label = "fragment_image_display"
+		android:label = "Image Viewer"
 		tools:layout = "@layout/fragment_image_display">
 		<action
 			android:id = "@+id/action_imageDisplayFragment_to_fileListFragment"
@@ -58,5 +64,29 @@
 			android:name = "imgIndex"
 			app:argType = "integer"
 			app:nullable = "false" />
+	</fragment>
+	<fragment
+		android:id = "@+id/videoDisplayFragment"
+		android:name = "com.example.materialfilemanager.view.ui.filedisplay.VideoDisplayFragment"
+		android:label = "Video Player"
+		tools:layout = "@layout/fragment_video_display">
+		<action
+			android:id = "@+id/action_videoDisplayFragment_to_fileListFragment"
+			app:destination = "@id/fileListFragment" />
+		<argument
+			android:name = "vidPath"
+			app:argType = "string" />
+	</fragment>
+	<fragment
+		android:id = "@+id/editTextViewerFragment"
+		android:name = "com.example.materialfilemanager.view.ui.filedisplay.EditTextViewerFragment"
+		android:label = "Edit Text"
+		tools:layout = "@layout/fragment_edit_text_viewer">
+		<action
+			android:id = "@+id/action_editTextViewerFragment_to_fileListFragment"
+			app:destination = "@id/fileListFragment" />
+		<argument
+			android:name = "filePath"
+			app:argType = "string" />
 	</fragment>
 </navigation>

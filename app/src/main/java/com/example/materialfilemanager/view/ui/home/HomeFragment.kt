@@ -6,12 +6,18 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.StatFs
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.materialfilemanager.R
@@ -61,7 +67,24 @@ class HomeFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		val storageList = mutableListOf<StorageInfo>()
 
+		val menuHost: MenuHost = requireActivity()
 
+		menuHost.addMenuProvider(object : MenuProvider {
+			override fun onCreateMenu(
+				menu: Menu, menuInflater: MenuInflater
+			) {
+				menuInflater.inflate(R.menu.menu_home, menu)
+			}
+
+			override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+				return when (menuItem.itemId) {
+
+
+					else -> false
+				}
+			}
+
+		}, viewLifecycleOwner, Lifecycle.State.RESUMED)
 		// Internal
 		getStorageStats(Environment.getExternalStorageDirectory())?.let {
 			storageList.add(

@@ -52,6 +52,8 @@ dependencies {
 	implementation(libs.androidx.viewpager2)
 	implementation(libs.androidx.preference)
 	implementation(libs.androidx.documentfile)
+	implementation(libs.androidx.media3.ui)
+	implementation(libs.androidx.media3.exoplayer)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
