@@ -12,20 +12,40 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.materialfilemanager.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityMainBinding
+	private lateinit var appBarConfiguration: AppBarConfiguration
+	private lateinit var navController: NavController
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		setSupportActionBar(binding.toolBar)
-		
+
+		val drawerLayout = binding.main
+		val navView = binding.navDrawer
+
+		val navHostFragment = supportFragmentManager
+			.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+		navController = navHostFragment.navController
 
 
+		appBarConfiguration = AppBarConfiguration(
+			navController.graph, drawerLayout
+		)
+
+		setupActionBarWithNavController(navController, drawerLayout)
+		navView.setupWithNavController(navController)
 
 		if (!hasStoragePermission()) {
 			showStoragePermissionDialog()
@@ -69,6 +89,11 @@ class MainActivity : AppCompatActivity() {
 				1000
 			)
 		}
+	}
+
+	override fun onSupportNavigateUp(): Boolean {
+
+		return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 	}
 
 	override fun onRequestPermissionsResult(

@@ -1,10 +1,10 @@
-package com.example.materialfilemanager.adapter
+package com.example.materialfilemanager.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.materialfilemanager.AdditionalFunction.formatFileSize
+import com.example.materialfilemanager.AdditionalFunction
 import com.example.materialfilemanager.databinding.ItemStorageBinding
 import com.example.materialfilemanager.model.data.StorageInfo
 
@@ -44,7 +44,11 @@ class StorageListAdapter(
 			tvStorageName.text = item.name
 			val usedSize = item.usedBytes
 			val totalSize = item.totalBytes
-			val storageSize = "${formatFileSize(usedSize)}/${formatFileSize(totalSize)}"
+			val storageSize = "${AdditionalFunction.formatFileSize(usedSize)}/${
+				AdditionalFunction.formatFileSize(
+					totalSize
+				)
+			}"
 			val percentageUsed = (usedSize.toDouble() / totalSize.toDouble() * 100).toInt()
 
 			tvStorageSize.text = storageSize

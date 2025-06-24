@@ -1,4 +1,4 @@
-package com.example.materialfilemanager.ui.filelist
+package com.example.materialfilemanager.view.ui.filelist
 
 import android.content.Context
 import android.os.Bundle
@@ -10,16 +10,18 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.materialfilemanager.R
-import com.example.materialfilemanager.adapter.FileListAdapter
 import com.example.materialfilemanager.databinding.BottomSheetSortAndFilterBinding
 import com.example.materialfilemanager.databinding.DialogRemoveFileBinding
 import com.example.materialfilemanager.databinding.FragmentFileListBinding
+import com.example.materialfilemanager.model.formats.ImageFormat
+import com.example.materialfilemanager.view.adapter.FileListAdapter
 import com.example.materialfilemanager.viewmodel.FileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -46,10 +48,9 @@ class FileListFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		val homeDir = args.rootPath
-		updateToolbar()
 		setupRecyclerView()
 		setupFab()
-
+		updateToolbar()
 
 		viewModel.fileList.observe(viewLifecycleOwner) { files ->
 			adapter.submitList(files)
@@ -69,15 +70,15 @@ class FileListFragment : Fragment() {
 			viewLifecycleOwner, object : OnBackPressedCallback(true) {
 				override fun handleOnBackPressed() {
 					val currentDir = viewModel.currentDirectory.value
-					if (currentDir != null && currentDir.parentFile != null) {
-						viewModel.goUp()
-						updateToolbar(currentDir.parentFile!!)
-					} else if (currentDir != null && currentDir.path == homeDir) {
-						findNavController().popBackStack()
-					} else {
-						isEnabled = false
-						requireActivity().onBackPressed()
+					if (currentDir != null) {
+						if (currentDir.path == homeDir) {
+							findNavController().popBackStack()
+						} else {
+							viewModel.goUp()
+							updateToolbar(currentDir.parentFile!!)
+						}
 					}
+
 
 				}
 
@@ -99,7 +100,23 @@ class FileListFragment : Fragment() {
 				viewModel.loadFiles(file)
 				updateToolbar(file)
 			} else {
-				Toast.makeText(requireContext(), "Clicked: ${file.name}", Toast.LENGTH_SHORT).show()
+				val currentDir = viewModel.currentDirectory.value
+				if (ImageFormat.isImageFile(file)) {
+					val imageUris = currentDir.listFiles()?.filter { ImageFormat.isImageFile(it) }
+						                ?.map { it.toUri().toString() } ?: emptyList()
+
+					val position = imageUris.indexOf(file.toUri().toString())
+					val action =
+						FileListFragmentDirections.actionFileListFragmentToImageDisplayFragment(
+							imageUris = imageUris.toTypedArray(),
+							imgIndex = position
+						)
+					findNavController().navigate(action)
+				} else {
+					Toast.makeText(requireContext(), "Clicked: ${file.name}", Toast.LENGTH_SHORT)
+						.show()
+				}
+
 			}
 		}
 
@@ -132,6 +149,7 @@ class FileListFragment : Fragment() {
 	}
 
 	private fun showAddDialog(isFolder: Boolean) {
+
 		val currentDirectory = viewModel.currentDirectory.value ?: return
 
 		val dialogBinding = DialogRemoveFileBinding.inflate(layoutInflater)
@@ -172,6 +190,7 @@ class FileListFragment : Fragment() {
 
 	}
 
+
 	private fun updateToolbar(file: File? = viewModel.currentDirectory.value) {
 
 		val activity = requireActivity() as AppCompatActivity
@@ -181,13 +200,13 @@ class FileListFragment : Fragment() {
 		activity.supportActionBar?.title = currentTitle
 	}
 
-	fun showSortAndFilterBottomSheet(context: Context){
-		val dialog= BottomSheetDialog(context)
-		val dialogBinding= BottomSheetSortAndFilterBinding.inflate(LayoutInflater.from(context))
+	fun showSortAndFilterBottomSheet(context: Context) {
+		val dialog = BottomSheetDialog(context)
+		val dialogBinding = BottomSheetSortAndFilterBinding.inflate(LayoutInflater.from(context))
 
 		dialog.setContentView(dialogBinding.root)
 
-		val prefs= PreferenceManager.getDefaultSharedPreferences(context)
+		val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
 	}
 

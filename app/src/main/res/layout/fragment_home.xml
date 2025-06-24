@@ -3,7 +3,7 @@
 	xmlns:tools = "http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
-	tools:context = ".ui.home.HomeFragment">
+	tools:context = ".view.ui.home.HomeFragment">
 
 
 	<LinearLayout
@@ -15,8 +15,8 @@
 			android:id = "@+id/tv_no_storage_available"
 			android:layout_width = "match_parent"
 			android:layout_height = "wrap_content"
-			android:text = "No storage Available"
 			android:layout_gravity = "center"
+			android:text = "No storage Available"
 			android:textAlignment = "center"
 			android:visibility = "gone" />
 
@@ -26,5 +26,15 @@
 			android:layout_height = "wrap_content"
 			tools:listitem = "@layout/item_storage" />
 	</LinearLayout>
+
+	<Button
+		android:id = "@+id/btn_browse_sd_card"
+		style = "@style/Widget.Material3Expressive.Button.OutlinedButton"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_gravity = "bottom|end"
+		android:backgroundTint = "?attr/colorSecondary"
+		android:text = "Browse SD Card (SAF)"
+		android:textColor = "?attr/colorOnPrimary" />
 
 </FrameLayout>

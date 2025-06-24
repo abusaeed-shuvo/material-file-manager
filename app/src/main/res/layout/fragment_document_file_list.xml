@@ -4,7 +4,7 @@
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
-	tools:context = ".view.ui.filelist.FileListFragment">
+	tools:context = ".view.ui.documentfilelist.DocumentFileListFragment">
 
 	<LinearLayout
 		android:layout_width = "match_parent"
@@ -20,7 +20,7 @@
 
 
 		<androidx.recyclerview.widget.RecyclerView
-			android:id = "@+id/recyclerview_view_files"
+			android:id = "@+id/recyclerview_view_document_files"
 			android:layout_width = "match_parent"
 			android:layout_height = "wrap_content"
 			android:padding = "8dp"
@@ -28,12 +28,4 @@
 			tools:listitem = "@layout/item_file" />
 	</LinearLayout>
 
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:layout_width = "wrap_content"
-		android:layout_height = "wrap_content"
-		android:id = "@+id/fab_add"
-		android:src = "@drawable/ic_add"
-		android:contentDescription = "Add File or Folder"
-		android:layout_gravity = "bottom|end"
-		android:layout_margin = "16dp" />
 </FrameLayout>

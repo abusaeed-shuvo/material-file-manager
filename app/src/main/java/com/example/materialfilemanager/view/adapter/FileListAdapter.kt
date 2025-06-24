@@ -1,12 +1,11 @@
-package com.example.materialfilemanager.adapter
+package com.example.materialfilemanager.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.materialfilemanager.AdditionalFunction.formatFileSize
-import com.example.materialfilemanager.AdditionalFunction.getFormattedTime
+import com.example.materialfilemanager.AdditionalFunction
 import com.example.materialfilemanager.R
 import com.example.materialfilemanager.databinding.ItemFileBinding
 import java.io.File
@@ -14,8 +13,7 @@ import java.io.File
 class FileListAdapter(private val onClick: (File) -> Unit) :
 	ListAdapter<File, FileListAdapter.FileViewHolder>(DiffCallBack) {
 	override fun onCreateViewHolder(
-		parent: ViewGroup,
-		viewType: Int
+		parent: ViewGroup, viewType: Int
 	): FileViewHolder {
 
 		return FileViewHolder(
@@ -24,8 +22,7 @@ class FileListAdapter(private val onClick: (File) -> Unit) :
 	}
 
 	override fun onBindViewHolder(
-		holder: FileViewHolder,
-		position: Int
+		holder: FileViewHolder, position: Int
 	) {
 		holder.bind(getItem(position))
 
@@ -54,36 +51,34 @@ class FileListAdapter(private val onClick: (File) -> Unit) :
 	companion object {
 		private val DiffCallBack = object : DiffUtil.ItemCallback<File>() {
 			override fun areItemsTheSame(
-				oldItem: File,
-				newItem: File
+				oldItem: File, newItem: File
 			): Boolean = oldItem.absolutePath == newItem.absolutePath
 
 			override fun areContentsTheSame(
-				oldItem: File,
-				newItem: File
-			): Boolean = oldItem.length() == newItem.length() &&
-			             oldItem.lastModified() == newItem.lastModified()
+				oldItem: File, newItem: File
+			): Boolean =
+				oldItem.length() == newItem.length() && oldItem.lastModified() == newItem.lastModified()
 
 		}
 
-		fun countContentInFolder(folder: File): Int {
+		private fun countContentInFolder(folder: File): Int {
 			if (!folder.exists() || !folder.isDirectory) return 0
 
-			val count = folder.listFiles().count()
+			val count = folder.listFiles()?.count() ?: 0
 
 			return count
 		}
 
-		fun getLastModifiedDate(file: File): String {
+		private fun getLastModifiedDate(file: File): String {
 			val lastModified = file.lastModified()
 
-			return getFormattedTime(lastModified)
+			return AdditionalFunction.getFormattedTime(lastModified)
 
 		}
 
-		fun getFormattedFileSize(file: File): String {
+		private fun getFormattedFileSize(file: File): String {
 			val sizeInBytes = file.length()
-			return formatFileSize(sizeInBytes)
+			return AdditionalFunction.formatFileSize(sizeInBytes)
 		}
 	}
 

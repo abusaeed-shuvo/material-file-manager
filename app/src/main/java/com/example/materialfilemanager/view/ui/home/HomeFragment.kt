@@ -1,28 +1,56 @@
-package com.example.materialfilemanager.ui.home
+package com.example.materialfilemanager.view.ui.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.os.StatFs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.materialfilemanager.R
-import com.example.materialfilemanager.adapter.StorageListAdapter
 import com.example.materialfilemanager.databinding.FragmentHomeBinding
 import com.example.materialfilemanager.model.data.StorageInfo
+import com.example.materialfilemanager.view.adapter.StorageListAdapter
 import java.io.File
 
 class HomeFragment : Fragment() {
 	private var _binding: FragmentHomeBinding? = null
 	private val binding get() = _binding!!
 
+
+	private val sdCardLauncher =
+		registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+			if (uri != null) {
+				requireContext().contentResolver.takePersistableUriPermission(
+					uri,
+					Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+				)
+
+				// Save to SharedPreferences
+				val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+				prefs.edit { putString("sd_root_uri", uri.toString()) }
+
+				// Navigate to file list
+				val action =
+					HomeFragmentDirections.actionHomeFragmentToFileListFragment(uri.toString())
+				findNavController().navigate(action)
+			}
+		}
+
+	// Call this to request access
+	private fun requestSdCardAccess() {
+		sdCardLauncher.launch(null)
+	}
+
 	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
-		savedInstanceState: Bundle?
+		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 		// Inflate the layout for this fragment
@@ -59,7 +87,7 @@ class HomeFragment : Fragment() {
 				getStorageStats(it)?.let { stats ->
 					storageList.add(
 						StorageInfo(
-							name = "SD Card",
+							name = "SD Card(Legacy)",
 							usedBytes = stats.first,
 							totalBytes = stats.second,
 							iconRes = R.drawable.ic_sd_card,
@@ -82,6 +110,9 @@ class HomeFragment : Fragment() {
 						HomeFragmentDirections.actionHomeFragmentToFileListFragment(it.rootPath)
 					findNavController().navigate(action)
 				})
+			}
+			binding.btnBrowseSdCard.setOnClickListener {
+				requestSdCardAccess()
 			}
 		}
 
