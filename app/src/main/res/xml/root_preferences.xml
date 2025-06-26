@@ -1,34 +1,22 @@
 <PreferenceScreen xmlns:app = "http://schemas.android.com/apk/res-auto">
 
-	<PreferenceCategory app:title = "@string/messages_header">
-
-		<EditTextPreference
-			app:key = "signature"
-			app:title = "@string/signature_title"
-			app:useSimpleSummaryProvider = "true" />
-
+	<PreferenceCategory app:title = "General"
+		>
 		<ListPreference
-			app:defaultValue = "reply"
-			app:entries = "@array/reply_entries"
-			app:entryValues = "@array/reply_values"
-			app:key = "reply"
-			app:title = "@string/reply_title"
+			app:defaultValue = "system"
+			app:entries = "@array/theme_name"
+			app:entryValues = "@array/theme_value"
+			app:key = "theme_pref"
+			app:summary = "Select the appearance of the app"
+			app:title = "App Theme"
 			app:useSimpleSummaryProvider = "true" />
-
-	</PreferenceCategory>
-
-	<PreferenceCategory app:title = "@string/sync_header">
-
-		<SwitchPreferenceCompat
-			app:key = "sync"
-			app:title = "@string/sync_title" />
-
-		<SwitchPreferenceCompat
-			app:dependency = "sync"
-			app:key = "attachment"
-			app:summaryOff = "@string/attachment_summary_off"
-			app:summaryOn = "@string/attachment_summary_on"
-			app:title = "@string/attachment_title" />
+		<ListPreference
+			app:defaultValue = "dd/MM/yyyy hh:mm a"
+			app:entries = "@array/date_format_label"
+			app:entryValues = "@array/date_format_value"
+			app:key = "date_pref"
+			app:summary = "Set how dates are shown"
+			app:title = "Date Format" />
 
 	</PreferenceCategory>
 

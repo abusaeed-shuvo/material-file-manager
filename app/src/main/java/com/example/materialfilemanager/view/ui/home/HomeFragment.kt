@@ -134,9 +134,7 @@ class HomeFragment : Fragment() {
 					findNavController().navigate(action)
 				})
 			}
-			binding.btnBrowseSdCard.setOnClickListener {
-				requestSdCardAccess()
-			}
+
 		}
 
 	}

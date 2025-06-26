@@ -5,13 +5,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.materialfilemanager.AdditionalFunction
+import com.example.materialfilemanager.AdditionalFunction.countContentInFolder
+import com.example.materialfilemanager.AdditionalFunction.getFormattedFileSize
+import com.example.materialfilemanager.AdditionalFunction.getLastModifiedDate
 import com.example.materialfilemanager.R
 import com.example.materialfilemanager.databinding.ItemFileBinding
 import java.io.File
 
-class FileListAdapter(private val onClick: (File) -> Unit) :
-	ListAdapter<File, FileListAdapter.FileViewHolder>(DiffCallBack) {
+class FileListAdapter(
+	private val onClick: (File) -> Unit, private val onLongClick: (File) -> Unit
+) : ListAdapter<File, FileListAdapter.FileViewHolder>(DiffCallBack) {
+
+	private val selectedFiles = mutableSetOf<File>()
+
+	fun getSelectedFiles() = selectedFiles.toList()
+	fun clearSelection() {
+		selectedFiles.clear()
+		notifyDataSetChanged()
+	}
+
+	fun toggleSelection(file: File) {
+		val index = currentList.indexOf(file)
+		if (selectedFiles.contains(file)) selectedFiles.remove(file) else selectedFiles.add(file)
+		notifyItemChanged(index)
+	}
+
 	override fun onCreateViewHolder(
 		parent: ViewGroup, viewType: Int
 	): FileViewHolder {
@@ -37,13 +55,18 @@ class FileListAdapter(private val onClick: (File) -> Unit) :
 			root.setOnClickListener {
 				onClick(file)
 			}
-			tvFileDateModified.text = getLastModifiedDate(file)
+			root.setOnLongClickListener {
+				onLongClick(file)
+				true
+			}
+			tvFileDateModified.text = getLastModifiedDate(file, root.context)
 
 			tvFileSize.text = if (file.isDirectory) {
-				"${countContentInFolder(file)}"
+				"${countContentInFolder(file)} items"
 			} else {
 				getFormattedFileSize(file)
 			}
+			root.isChecked = selectedFiles.contains(file)
 
 		}
 	}
@@ -61,25 +84,7 @@ class FileListAdapter(private val onClick: (File) -> Unit) :
 
 		}
 
-		private fun countContentInFolder(folder: File): Int {
-			if (!folder.exists() || !folder.isDirectory) return 0
 
-			val count = folder.listFiles()?.count() ?: 0
-
-			return count
-		}
-
-		private fun getLastModifiedDate(file: File): String {
-			val lastModified = file.lastModified()
-
-			return AdditionalFunction.getFormattedTime(lastModified)
-
-		}
-
-		private fun getFormattedFileSize(file: File): String {
-			val sizeInBytes = file.length()
-			return AdditionalFunction.formatFileSize(sizeInBytes)
-		}
 	}
 
 }

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
 	android:layout_width = "match_parent"
+	android:padding = "8dp"
 	android:layout_height = "wrap_content"
+	android:background = "?attr/colorSurface"
 	android:orientation = "vertical">
 
 	<LinearLayout
@@ -17,6 +19,7 @@
 			android:layout_height = "wrap_content"
 			android:layout_weight = "1"
 			android:text = "Apply to all folder"
+			android:textColor = "?attr/colorOnSurface"
 			android:textAppearance = "@style/TextAppearance.Material3.TitleLarge" />
 
 		<CheckBox
@@ -50,12 +53,15 @@
 			android:layout_width = "wrap_content"
 			android:layout_height = "wrap_content"
 			android:layout_weight = "1"
+			android:drawableTint = "?attr/colorOnSurface"
 			android:drawableStart = "@drawable/ic_view_list" />
 
 		<com.google.android.material.radiobutton.MaterialRadioButton
 			android:id = "@+id/radio_button_grid_view"
 			android:layout_width = "wrap_content"
 			android:layout_height = "wrap_content"
+			android:drawableTint = "?attr/colorOnSurface"
+
 			android:layout_weight = "1"
 			android:drawableStart = "@drawable/ic_grid_view" />
 
@@ -63,6 +69,8 @@
 			android:id = "@+id/radio_button_details_view"
 			android:layout_width = "wrap_content"
 			android:layout_height = "wrap_content"
+			android:drawableTint = "?attr/colorOnSurface"
+
 			android:layout_weight = "1"
 			android:drawableStart = "@drawable/ic_details_view" />
 
@@ -78,10 +86,14 @@
 			android:id = "@+id/radio_button_view_small"
 			android:layout_width = "wrap_content"
 			android:layout_height = "wrap_content"
+			android:drawableTint = "?attr/colorOnSurface"
+
 			android:layout_weight = "1"
 			android:drawableStart = "@drawable/ic_img" />
 
 		<RadioButton
+			android:drawableTint = "?attr/colorOnSurface"
+
 			android:id = "@+id/radio_button_view_big"
 			android:layout_width = "wrap_content"
 			android:layout_height = "wrap_content"
@@ -101,6 +113,7 @@
 		android:layout_height = "wrap_content"
 		android:layout_marginStart = "10dp"
 		android:text = "Sort"
+
 		android:textAppearance = "@style/TextAppearance.Material3.TitleLarge"
 		android:textColor = "?attr/colorPrimary" />
 
@@ -111,6 +124,7 @@
 		android:layout_height = "wrap_content"
 		android:layout_margin = "10dp"
 		android:text = "Name ▲"
+		android:textColor = "?attr/colorOnSurface"
 		android:textAppearance = "@style/TextAppearance.Material3.TitleMedium" />
 
 	<com.google.android.material.divider.MaterialDivider
@@ -137,6 +151,8 @@
 			android:layout_width = "0dp"
 			android:layout_height = "wrap_content"
 			android:layout_weight = "1"
+			android:textColor = "?attr/colorOnSurface"
+
 			android:text = "Show hidden files"
 			android:textAppearance = "@style/TextAppearance.Material3.TitleLarge" />
 

@@ -9,4 +9,36 @@
 		<item>reply</item>
 		<item>reply_all</item>
 	</string-array>
+	<string-array name = "theme_name">
+		<item>System</item>
+		<item>Light</item>
+		<item>Dark</item>
+	</string-array>
+	<string-array name = "theme_value">
+		<item>system</item>
+		<item>light</item>
+		<item>dark</item>
+	</string-array>
+	<string-array name = "date_format_label">
+		<item>
+			dd/MM/yyyy hh:mm a
+		</item>
+		<item>
+			MMM dd, yyyy hh:mm a
+		</item>
+		<item>
+			yyyy-MM-dd hh:mm a
+		</item>
+	</string-array>
+	<string-array name = "date_format_value">
+		<item>
+			dd/MM/yyyy hh:mm a
+		</item>
+		<item>
+			MMM dd, yyyy hh:mm a
+		</item>
+		<item>
+			yyyy-MM-dd hh:mm a
+		</item>
+	</string-array>
 </resources>

@@ -16,6 +16,7 @@
 		<argument
 			android:name = "rootPath"
 			app:argType = "string" />
+
 		<action
 			android:id = "@+id/action_fileListFragment_to_imageDisplayFragment"
 			app:destination = "@id/imageDisplayFragment" />
@@ -39,15 +40,6 @@
 		android:id = "@+id/settingsFragment"
 		android:name = "com.example.materialfilemanager.view.ui.settings.SettingsFragment"
 		android:label = "SettingsFragment" />
-	<fragment
-		android:id = "@+id/documentFileListFragment"
-		android:name = "com.example.materialfilemanager.view.ui.documentfilelist.DocumentFileListFragment"
-		android:label = "Document File Viewer"
-		tools:layout = "@layout/fragment_document_file_list">
-		<argument
-			android:name = "rootPath"
-			app:argType = "string" />
-	</fragment>
 	<fragment
 		android:id = "@+id/imageDisplayFragment"
 		android:name = "com.example.materialfilemanager.view.ui.filedisplay.ImageDisplayFragment"
