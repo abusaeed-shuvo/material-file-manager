@@ -25,7 +25,6 @@ class VideoDisplayFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentVideoDisplayBinding.inflate(inflater, container, false)
-		// Inflate the layout for this fragment
 		return binding.root
 	}
 

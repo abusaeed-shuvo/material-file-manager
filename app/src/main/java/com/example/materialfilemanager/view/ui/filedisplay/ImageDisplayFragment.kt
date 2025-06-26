@@ -37,8 +37,7 @@ class ImageDisplayFragment : Fragment() {
 	var showTopBarAndBottomBar = true
 
 	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
-		savedInstanceState: Bundle?
+		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentImageDisplayBinding.inflate(inflater, container, false)
 		// Inflate the layout for this fragment
@@ -59,7 +58,7 @@ class ImageDisplayFragment : Fragment() {
 		val viewPager = binding.imageViewPager2
 		val thumbnailRecycler = binding.recyclerViewThumbnail
 
-		pagerAdapter = ImagePagerAdapter(imageUris) {
+		pagerAdapter = ImagePagerAdapter(imageUris) { uri ->
 			showTopBarAndBottomBar = !showTopBarAndBottomBar
 			val controller = WindowInsetsControllerCompat(requireActivity().window, requireView())
 
@@ -68,8 +67,9 @@ class ImageDisplayFragment : Fragment() {
 				(requireActivity() as AppCompatActivity).supportActionBar?.show()
 				WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
 
-				WindowInsetsControllerCompat(requireActivity().window, requireView())
-					.show(WindowInsetsCompat.Type.statusBars())
+				WindowInsetsControllerCompat(requireActivity().window, requireView()).show(
+						WindowInsetsCompat.Type.statusBars()
+					)
 			} else {
 				binding.recyclerViewThumbnail.visibility = View.INVISIBLE
 				(requireActivity() as AppCompatActivity).supportActionBar?.hide()
@@ -82,6 +82,16 @@ class ImageDisplayFragment : Fragment() {
 		}
 		viewPager.adapter = pagerAdapter
 		viewPager.setCurrentItem(displayImgPos, false)
+		viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+			override fun onPageSelected(position: Int) {
+				thumbnailAdapter.selectedIndex = position
+				thumbnailAdapter.notifyDataSetChanged()
+				thumbnailRecycler.smoothScrollToPosition(position)
+
+				val fileName = imageUris[position].toFile().nameWithoutExtension
+				updateToolbar(fileName)
+			}
+		})
 
 		thumbnailAdapter = ThumbnailListAdapter(imageUris, onClick = { position ->
 			viewPager.currentItem = position
@@ -99,13 +109,14 @@ class ImageDisplayFragment : Fragment() {
 			}
 		})
 
-		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
-			OnBackPressedCallback(true) {
-			override fun handleOnBackPressed() {
-				findNavController().popBackStack()
-			}
+		requireActivity().onBackPressedDispatcher.addCallback(
+			viewLifecycleOwner,
+			object : OnBackPressedCallback(true) {
+				override fun handleOnBackPressed() {
+					findNavController().popBackStack()
+				}
 
-		})
+			})
 
 	}
 
@@ -123,8 +134,9 @@ class ImageDisplayFragment : Fragment() {
 		(requireActivity() as AppCompatActivity).supportActionBar?.show()
 		WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
 
-		WindowInsetsControllerCompat(requireActivity().window, requireView())
-			.show(WindowInsetsCompat.Type.statusBars())
+		WindowInsetsControllerCompat(requireActivity().window, requireView()).show(
+				WindowInsetsCompat.Type.statusBars()
+			)
 		_binding = null
 	}
 

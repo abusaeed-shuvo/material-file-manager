@@ -13,7 +13,6 @@
 		android:id = "@+id/text_edit_layout"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:hint = "Enter your text here:"
 		android:padding = "8dp">
 
 		<com.google.android.material.textfield.TextInputEditText

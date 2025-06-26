@@ -1,15 +1,17 @@
 package com.example.materialfilemanager.view.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.materialfilemanager.AdditionalFunction.countContentInFolder
 import com.example.materialfilemanager.AdditionalFunction.getFormattedFileSize
 import com.example.materialfilemanager.AdditionalFunction.getLastModifiedDate
-import com.example.materialfilemanager.R
 import com.example.materialfilemanager.databinding.ItemFileBinding
+import com.example.materialfilemanager.model.formats.FileTypes.Companion.getFileIcon
 import java.io.File
 
 class FileListAdapter(
@@ -50,8 +52,16 @@ class FileListAdapter(
 	inner class FileViewHolder(private val binding: ItemFileBinding) :
 		RecyclerView.ViewHolder(binding.root) {
 		fun bind(file: File) = with(binding) {
+
+
+//			FileTypes.loadThumbnailInto(iconFile.context, file, iconFile)
+			Glide.with(iconFile.context)
+				.load(Uri.fromFile(file))
+				.placeholder(getFileIcon(file))
+				.error(getFileIcon(file))
+				.into(iconFile)
+
 			tvFileName.text = file.name
-			iconFile.setImageResource(if (file.isDirectory) R.drawable.ic_folder else R.drawable.ic_file)
 			root.setOnClickListener {
 				onClick(file)
 			}
@@ -81,10 +91,7 @@ class FileListAdapter(
 				oldItem: File, newItem: File
 			): Boolean =
 				oldItem.length() == newItem.length() && oldItem.lastModified() == newItem.lastModified()
-
 		}
-
-
 	}
 
 }
