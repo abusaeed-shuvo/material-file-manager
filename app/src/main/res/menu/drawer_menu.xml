@@ -5,10 +5,6 @@
 		android:icon = "@drawable/ic_home"
 		android:title = "Home" />
 
-	<item
-		android:id = "@+id/fileListFragment"
-		android:icon = "@drawable/ic_internal"
-		android:title = "Internal Storage" />
 
 	<item
 		android:id = "@+id/settingsFragment"

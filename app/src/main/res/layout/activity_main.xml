@@ -19,8 +19,9 @@
 			android:id = "@+id/top_app_bar"
 			android:layout_width = "match_parent"
 			android:layout_height = "wrap_content"
-			android:background = "?attr/colorPrimary"
 			android:fitsSystemWindows = "true"
+
+			android:background = "?attr/colorPrimary"
 			app:liftOnScroll = "true"
 			app:liftOnScrollTargetViewId = "@id/fragmentContainerView">
 
@@ -31,7 +32,6 @@
 				android:layout_height = "?attr/actionBarSize"
 				android:elevation = "10dp"
 				android:fitsSystemWindows = "true"
-
 				app:title = "Files Manager"
 				app:titleCentered = "true"
 				app:titleTextColor = "?attr/colorOnPrimarySurface" />
@@ -46,7 +46,7 @@
 			app:layout_behavior = "com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
 			app:navGraph = "@navigation/main_nav" />
 
-		
+
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 	<com.google.android.material.navigation.NavigationView

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.11.0"
+shizukuApi = "13.1.5"
 glide = "4.16.0"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
@@ -38,6 +39,9 @@ androidx-preference = { group = "androidx.preference", name = "preference", vers
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
+shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizukuApi" }
+shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizukuApi" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

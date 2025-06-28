@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.materialfilemanager.MainActivity
 import com.example.materialfilemanager.R
 import com.example.materialfilemanager.databinding.BottomSheetSortAndFilterBinding
 import com.example.materialfilemanager.databinding.DialogRemoveFileBinding
@@ -29,6 +30,7 @@ import com.example.materialfilemanager.model.formats.ImageFormat
 import com.example.materialfilemanager.view.adapter.FileListAdapter
 import com.example.materialfilemanager.viewmodel.FileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.io.IOException
@@ -60,6 +62,8 @@ class FileListFragment : Fragment() {
 		setupMenu()
 		setupRecyclerView()
 
+		setupBottomAppbar()
+
 		if (rootPath != null) {
 
 			val file = File(rootPath)
@@ -75,13 +79,7 @@ class FileListFragment : Fragment() {
 			adapter.submitList(fileList)
 		}
 
-		binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
-			when (menuItem.itemId) {
 
-
-				else -> false
-			}
-		}
 
 
 		requireActivity().onBackPressedDispatcher.addCallback(
@@ -150,6 +148,43 @@ class FileListFragment : Fragment() {
 		}, viewLifecycleOwner, Lifecycle.State.RESUMED)
 	}
 
+
+	private fun setupBottomAppbar() {
+		binding.apply {
+			contextBtnCopy.setOnClickListener {
+				val selectedFiles = adapter.getSelectedFiles()
+				viewModel.copyFiles(selectedFiles)
+				adapter.clearSelection()
+				isSelectionMode = false
+				updateToolbar()
+			}
+			contextBtnCut.setOnClickListener {
+				val selectedFiles = adapter.getSelectedFiles()
+				viewModel.cutFiles(selectedFiles)
+				adapter.clearSelection()
+				isSelectionMode = false
+				updateToolbar()
+			}
+
+			contextBtnDelete.setOnClickListener {
+				val selectedFiles = adapter.getSelectedFiles()
+				val fileNames = selectedFiles.map { it.name }.toTypedArray()
+
+				MaterialAlertDialogBuilder(requireContext()).setTitle("Delete ${selectedFiles.size} files:")
+					.setItems(fileNames) { _, which ->
+						val selected = fileNames[which]
+						Toast.makeText(requireContext(), "Clicked: $selected", Toast.LENGTH_SHORT)
+							.show()
+					}.setPositiveButton("Delete") { _, _ ->
+						viewModel.deleteFiles(selectedFiles) { success, message ->
+							Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+						}
+					}.setNegativeButton("Cancel", null).show()
+
+
+			}
+		}
+	}
 
 	private fun setupRecyclerView() {
 		binding.recyclerviewViewFiles.layoutManager = LinearLayoutManager(requireContext())
@@ -265,13 +300,19 @@ class FileListFragment : Fragment() {
 		val selectedCount = adapter.getSelectedFiles().size
 		val name = viewModel.getCurrentDirectoryName()
 		val activity = requireActivity() as AppCompatActivity
+		val toolbar = (activity as MainActivity).toolbar
 
 		if (isSelectionMode && selectedCount > 0) {
 			activity.supportActionBar?.title = "$selectedCount selected"
+			val color =
+				MaterialColors.getColor(toolbar, com.google.android.material.R.attr.colorSecondary)
+			toolbar.setBackgroundColor(color)
 			binding.bottomAppBar.visibility = View.VISIBLE
 		} else {
 			isSelectionMode = false
 			adapter.clearSelection()
+			val color = MaterialColors.getColor(toolbar, androidx.appcompat.R.attr.colorPrimary)
+			toolbar.setBackgroundColor(color)
 			activity.supportActionBar?.title = name
 			binding.bottomAppBar.visibility = View.GONE
 
